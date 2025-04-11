@@ -38,6 +38,8 @@ if "language" not in st.session_state:
     st.session_state.language = "English"
 
 # --- Sidebar Settings ---
+selected_model = st.sidebar.selectbox("Choose Model", ["gpt-4o", "mistral"], key="model_choice")
+
 sector_options = ["Tech", "Healthcare", "Energy", "Finance", "Consumer Goods", "ESG"]
 selected_sectors = st.sidebar.multiselect("Preferred Sectors", sector_options, default=["Tech", "Finance"])
 
@@ -127,7 +129,13 @@ if submitted:
 You are a professional financial advisor. Here's the user's profile:
 {profile_text}
 Based on their profile and appearance cues, they are categorized as: '{image_classification}'.
-Detect any potential behavioral finance biases they may be susceptible to. Then provide 5 bullet points of investment advice tailored to them.
+
+The user has selected the following risk allocation:
+- Low Risk: {low_risk_pct}%
+- Medium Risk: {med_risk_pct}%
+- High Risk: {high_risk_pct}%
+
+Please take their personality, risk tolerance, and goals into account. Detect any potential behavioral finance biases they may be susceptible to. Then provide 5 bullet points of investment advice tailored to them.
 """
     prompt = apply_simplifier(prompt, elimode)
 
