@@ -1,0 +1,9 @@
+torch
+ftfy
+regex
+tqdm
+Pillow
+clip-by-openai
+openai
+streamlit
+matplotlib
