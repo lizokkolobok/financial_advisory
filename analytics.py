@@ -12,7 +12,7 @@ def load_all_sessions():
 
     for filename in os.listdir(session_dir):
         if filename.endswith(".json"):
-            with open(os.path.join(session_dir, filename), "r") as f:
+            with open(os.path.join(session_dir, filename), "r", encoding="utf-8") as f:
                 try:
                     session = json.load(f)
                     session["filename"] = filename
@@ -27,16 +27,16 @@ def summarize_sessions(df):
     if df.empty:
         return {}, pd.DataFrame()
 
-    # --- Basic Stats ---
+    # Basic Stats
     num_sessions = len(df)
     avg_length = int(df["advice"].apply(lambda x: len(x.split())).mean())
 
-    # --- Top Keywords from Goals/Advice ---
+    # Top Keywords
     text_blob = " ".join(df["profile"].fillna("").tolist() + df["advice"].fillna("").tolist())
     words = re.findall(r'\b[a-z]{4,}\b', text_blob.lower())
     top_keywords = Counter(words).most_common(5)
 
-    # --- Trait Aggregation ---
+    # Trait Aggregation
     trait_data = []
     for profile in df["profile"]:
         if "Personality Traits:" in profile:
@@ -44,7 +44,8 @@ def summarize_sessions(df):
                 json_like = profile.split("Personality Traits:")[1].strip()
                 traits = eval(json_like) if isinstance(json_like, str) else json_like
                 trait_data.append(traits)
-            except:
+            except Exception as e:
+                print(f"Failed to parse traits: {e}")
                 continue
 
     traits_df = pd.DataFrame(trait_data)
@@ -56,4 +57,6 @@ def summarize_sessions(df):
     }
 
     return summary, traits_df
+
+
 
