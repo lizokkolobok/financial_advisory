@@ -7,6 +7,9 @@ from sentence_transformers import SentenceTransformer, util
 analyzer = SentimentIntensityAnalyzer()
 embed_model = SentenceTransformer("all-MiniLM-L6-v2")
 
+###############################################################################
+#  HELPERS
+###############################################################################
 def detect_framing(text: str) -> str:
     pos_kw = [
         "maximize returns", "growth", "aggressive", "higher yield",
@@ -39,6 +42,9 @@ def compute_consistency(responses: list[str]) -> float | None:
     ]
     return round(sum(scores) / len(scores), 4) if scores else None
 
+###############################################################################
+#  MAIN LOGGER
+###############################################################################
 LOGFILE = "data/model_metrics.json"
 os.makedirs("data", exist_ok=True)
 
