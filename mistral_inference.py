@@ -11,7 +11,7 @@ def get_mistral_response(prompt):
     }
 
     payload = {
-        "model": "mistral-small",  # Or "mistral-medium" if enabled
+        "model": "mistral-small",  
         "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.7
     }
@@ -19,3 +19,6 @@ def get_mistral_response(prompt):
     response = requests.post(url, headers=headers, json=payload, timeout=20)
     response.raise_for_status()
     return response.json()["choices"][0]["message"]["content"]
+
+
+
