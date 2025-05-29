@@ -2,7 +2,6 @@ import requests
 import uuid
 
 AUTH_HEADER = ""
-
 TOKEN_URL = "https://ngw.devices.sberbank.ru:9443/api/v2/oauth"
 CHAT_URL = "https://gigachat.devices.sberbank.ru/api/v1/chat/completions"
 
@@ -50,3 +49,8 @@ def get_gigachat_response(prompt: str) -> str:
         return result["choices"][0]["message"]["content"]
     else:
         raise Exception(f"GigaChat API error: {response.status_code}, {response.text}")
+
+
+
+
+
