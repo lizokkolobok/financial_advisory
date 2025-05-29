@@ -27,16 +27,16 @@ def summarize_sessions(df):
     if df.empty:
         return {}, pd.DataFrame()
 
-    # Basic Stats
+    # --- Basic Stats ---
     num_sessions = len(df)
     avg_length = int(df["advice"].apply(lambda x: len(x.split())).mean())
 
-    # Top Keywords
+    # --- Top Keywords from Goals/Advice ---
     text_blob = " ".join(df["profile"].fillna("").tolist() + df["advice"].fillna("").tolist())
     words = re.findall(r'\b[a-z]{4,}\b', text_blob.lower())
     top_keywords = Counter(words).most_common(5)
 
-    # Trait Aggregation
+    # --- Trait Aggregation ---
     trait_data = []
     for profile in df["profile"]:
         if "Personality Traits:" in profile:
@@ -57,6 +57,4 @@ def summarize_sessions(df):
     }
 
     return summary, traits_df
-
-
 

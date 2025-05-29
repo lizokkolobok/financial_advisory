@@ -28,7 +28,7 @@ import matplotlib.pyplot as plt
 st.set_page_config(page_title="Financial Advisor", layout="centered")
 st.title("Financial Advisor")
 
-# Initialize session state
+# --- Initialize session state ---
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 if "advice" not in st.session_state:
@@ -40,7 +40,7 @@ if "chat_log" not in st.session_state:
 if "language" not in st.session_state:
     st.session_state.language = "English"
 
-# Sidebar Settings
+# --- Sidebar Settings ---
 selected_model = st.sidebar.selectbox("Choose Model", ["gpt-4o", "mistral", "gigachat"], key="model_choice")
 st.session_state.model_version = selected_model
 
@@ -71,7 +71,7 @@ if username:
 if not username:
     username = f"session_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
     st.sidebar.write(f"Session Name: {username}")
-# Big Five Quiz
+# --- Big Five Quiz ---
 st.subheader("Personality Estimator (Big Five)")
 big_five = {
     "Openness": "I enjoy trying new things and thinking about abstract ideas.",
@@ -90,7 +90,7 @@ if submitted_quiz:
     st.success("Personality traits recorded.")
     st.session_state.personality_scores = personality_scores
 
-# User Form
+# --- User Form ---
 st.subheader("Your Financial Profile")
 with st.form("user_form"):
     age = st.text_input("Age")
@@ -101,7 +101,7 @@ with st.form("user_form"):
     csv_file = st.file_uploader("Upload financial transactions CSV (optional)", type=["csv"])
     submitted = st.form_submit_button("Get Advice")
 
-# Advice Generation
+# --- Advice Generation ---
 if submitted:
     profile_text = f"- Age: {age}\n- Income: ${income}\n- Experience: {experience}\n- Goal: {goal}\n- Time Horizon: {time_horizon} years"
 
@@ -235,7 +235,7 @@ if st.session_state.advice:
         ax.set_ylabel("Portfolio Value ($)")
         st.pyplot(fig)
 
-# Chat Interface
+# --- Chat Interface ---
 if st.session_state.advice:
     st.divider()
     st.subheader("Ask a Follow-up Question")
@@ -257,11 +257,11 @@ if st.session_state.advice:
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
 
-# Prompt
+# --- Debug Prompt ---
 with st.expander("View AI Prompt"):
     st.code(st.session_state.prompt if st.session_state.prompt else "No prompt yet.")
 
-# Log Export
+# --- Log Export ---
 with st.expander("Export Chat Log"):
     if st.session_state.chat_log:
         chat_json = json.dumps(st.session_state.chat_log, indent=2)
@@ -311,7 +311,7 @@ with st.expander("Session Summary Dashboard"):
             ax.set_title("Average Big Five Trait Scores")
             st.pyplot(fig)
             
-# Model Metrics Viewer
+# --- Model Metrics Viewer ---
 with st.expander("Model Metrics Overview"):
     if os.path.exists("metrics_log.json"):
         df = pd.read_json("data/model_metrics.json")
@@ -325,9 +325,8 @@ with st.expander("Model Metrics Overview"):
         colors = ["#636EFA"]  
         verbosity_avg.plot(kind="bar", ax=ax, color=colors)
         ax.set_ylabel("Average Word Count")
-        ax.set_title("Average Verbosity by Model")
         ax.set_ylim(0, verbosity_avg.max() * 1.2)
-
+        ax.set_xticklabels(ax.get_xticklabels(), rotation=30, ha="right")
         st.pyplot(fig)
 
         buf = io.BytesIO()
@@ -342,9 +341,8 @@ with st.expander("Model Metrics Overview"):
         fig1, ax1 = plt.subplots()
         bias_counts.plot(kind="bar", stacked=True, ax=ax1, color=["#636EFA", "#00CC96", "#EF553B", "#AB63FA"])
         ax1.set_ylabel("Count")
-        ax1.set_title("Risk Bias Frequency by Model")
         ax1.legend(title="Framing")
-
+        ax1.set_xticklabels(ax1.get_xticklabels(), rotation=30, ha="right")
         st.pyplot(fig1)
 
         buf1 = io.BytesIO()
@@ -359,8 +357,7 @@ with st.expander("Model Metrics Overview"):
         fig2, ax2 = plt.subplots()
         fact_counts.plot(kind="bar", ax=ax2, color="#00CC96")
         ax2.set_ylabel("Mentions")
-        ax2.set_title("Factuality Mentions by Model")
-
+        ax2.set_xticklabels(ax2.get_xticklabels(), rotation=30, ha="right")
         st.pyplot(fig2)
 
         buf2 = io.BytesIO()
@@ -379,8 +376,8 @@ with st.expander("Model Metrics Overview"):
         fig, ax = plt.subplots()
         sentiment_binned.plot(kind="bar", stacked=True, ax=ax, color=["#ef7a3b", "#faf063", "#00CC96"])
         ax.set_ylabel("Count")
-        ax.set_title("Sentiment Distribution by Model")
         ax.legend(title="Sentiment Class")
+        ax.set_xticklabels(ax.get_xticklabels(), rotation=30, ha="right")
         st.pyplot(fig)
 
         buf = io.BytesIO()
@@ -395,8 +392,7 @@ with st.expander("Model Metrics Overview"):
         consistency_avg.plot(kind="bar", ax=ax3, color="#AB63FA")
         ax3.set_ylabel("Cosine Similarity")
         ax3.set_ylim(0, 1)
-        ax3.set_title("Average Consistency Score by Model")
-
+        ax3.set_xticklabels(ax3.get_xticklabels(), rotation=30, ha="right")
         st.pyplot(fig3)
 
         buf3 = io.BytesIO()
