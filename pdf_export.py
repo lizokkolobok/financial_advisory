@@ -5,7 +5,6 @@ def create_pdf(profile_text, advice, filename="financial_advice_report.pdf"):
     pdf = FPDF()
     pdf.add_page()
 
-    # Hardcoded absolute path to fix issue
     font_path = "/home/financial_advisory/DejaVuSans.ttf"
     if not os.path.exists(font_path):
         raise FileNotFoundError(f"Font not found at {font_path}")
