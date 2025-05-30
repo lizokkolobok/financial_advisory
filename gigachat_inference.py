@@ -8,7 +8,6 @@ def get_gigachat_response(prompt):
     if not GIGACHAT_API_KEY:
         raise EnvironmentError("GIGACHAT_API_KEY environment variable is not set")
 
-    # Step 1: Get access token
     token_response = requests.post(
         url="https://ngw.devices.sberbank.ru:9443/api/v2/oauth",
         headers={
@@ -24,7 +23,6 @@ def get_gigachat_response(prompt):
     token_response.raise_for_status()
     access_token = token_response.json()["access_token"]
 
-    # Step 2: Send chat request
     chat_response = requests.post(
         url="https://gigachat.devices.sberbank.ru/api/v1/chat/completions",
         headers={
