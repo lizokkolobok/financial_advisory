@@ -28,7 +28,6 @@ def detect_framing(text: str) -> str:
     return "mixed"
 
 def compute_consistency(responses: list[str]) -> float | None:
-    """Compute average cosine similarity among response embeddings."""
     if not responses or len(responses) < 2:
         return None
     embeddings = embed_model.encode(responses, convert_to_tensor=True)
