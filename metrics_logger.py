@@ -3,7 +3,6 @@ from datetime import datetime
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from sentence_transformers import SentenceTransformer, util
 
-# Load sentiment analyzer and embedding model
 analyzer = SentimentIntensityAnalyzer()
 embed_model = SentenceTransformer("all-MiniLM-L6-v2")
 
